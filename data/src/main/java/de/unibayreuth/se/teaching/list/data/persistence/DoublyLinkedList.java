@@ -14,11 +14,28 @@ import org.slf4j.LoggerFactory;
 @Setter
 @Slf4j
 public class DoublyLinkedList {
+    private static DoublyLinkedList singletonInstance;
+
     private Element start;
     private Element end;
     private int length;
 
     private static final Logger logger = LoggerFactory.getLogger(DoublyLinkedListComponent.class);
+
+    private DoublyLinkedList() {
+
+    }
+
+    /**
+     * Get or create singleton instance
+     * @return singleton instance of DoublyLinkedList
+     */
+    public static DoublyLinkedList getInstance(){
+        if(singletonInstance == null){
+            singletonInstance = new DoublyLinkedList();
+        }
+        return singletonInstance;
+    }
 
     /**
      * Add an element at the end of the list
