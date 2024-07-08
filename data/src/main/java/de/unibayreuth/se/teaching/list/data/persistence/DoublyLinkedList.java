@@ -1,5 +1,7 @@
 package de.unibayreuth.se.teaching.list.data.persistence;
 
+import de.unibayreuth.se.teaching.list.data.pattern.Observer;
+import de.unibayreuth.se.teaching.list.data.pattern.Subject;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -7,14 +9,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList; // Makes things easier
+
 /**
  * Our doubly linked list implementation from previous assignments.
  */
 @Getter
 @Setter
 @Slf4j
-public class DoublyLinkedList {
+public class DoublyLinkedList implements Subject {
     private static DoublyLinkedList singletonInstance;
+    private ArrayList<Observer> observerList = new ArrayList<Observer>();
 
     private Element start;
     private Element end;
@@ -35,6 +40,34 @@ public class DoublyLinkedList {
             singletonInstance = new DoublyLinkedList();
         }
         return singletonInstance;
+    }
+
+    /**
+     * Add an observer to the observerlist.
+     * @param observer to be added
+     */
+    @Override
+    public void attach(Observer observer) {
+        observerList.add(observer);
+    }
+
+    /**
+     * Remove an observer from the observerList
+     * @param observer to be removed
+     */
+    @Override
+    public void detach(Observer observer) {
+        observerList.remove(observer);
+    }
+
+    /**
+     * Update all observers on the observerList
+     */
+    @Override
+    public void updateObservers() {
+        for(Observer observer : observerList) {
+            observer.update(this);
+        }
     }
 
     /**
@@ -143,6 +176,7 @@ public class DoublyLinkedList {
         start = null;
         end = null;
         length = 0;
+        updateObservers();
     }
 
     /**

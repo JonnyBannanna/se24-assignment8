@@ -9,10 +9,15 @@ import org.junit.jupiter.api.Test;
  */
 class DoublyLinkedListTest {
     private DoublyLinkedList list;
+    private ListClearedObserver observerOne, observerTwo;
 
     @BeforeEach
     void setUp() {
         list = DoublyLinkedList.getInstance();//new DoublyLinkedList();
+        observerOne = new ListClearedObserver();
+        observerTwo = new ListClearedObserver();
+        list.attach(observerOne);
+        list.attach(observerTwo);
     }
 
     @Test
