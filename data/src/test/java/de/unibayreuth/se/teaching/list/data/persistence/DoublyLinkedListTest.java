@@ -14,6 +14,7 @@ class DoublyLinkedListTest {
     @BeforeEach
     void setUp() {
         list = DoublyLinkedList.getInstance();//new DoublyLinkedList();
+        list.clear();
         observerOne = new ListClearedObserver();
         observerTwo = new ListClearedObserver();
         list.attach(observerOne);
